@@ -44,6 +44,8 @@ dependencies {
     /*rx-android-java*/
     /*rotrofit*/
     compile project(':library_sweetdialog')
+
+
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.trello:rxlifecycle:1.0'
@@ -52,8 +54,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.google.code.gson:gson:2.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
-
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
     testCompile 'junit:junit:4.12'
-
 }

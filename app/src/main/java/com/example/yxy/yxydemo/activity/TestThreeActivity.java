@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.yxy.yxydemo.Api.HttpService;
 import com.example.yxy.yxydemo.Api.MyApiEndpointInterface;
 import com.example.yxy.yxydemo.BaseActivity;
 import com.example.yxy.yxydemo.R;
-import com.example.yxy.yxydemo.TestTwoActivity;
 import com.example.yxy.yxydemo.bean.RetrofitEntity;
 
 import butterknife.Bind;

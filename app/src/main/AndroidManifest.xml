@@ -18,10 +18,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.TestOneActivity" />
-        <activity android:name=".TestTwoActivity"/>
+        <activity android:name=".activity.TestTwoActivity" />
         <activity android:name=".activity.TestThreeActivity" />
-        <activity android:name=".activity.TestFourActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name=".activity.TestFourActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".activity.MainActivity"/>
     </application>
 
 </manifest>

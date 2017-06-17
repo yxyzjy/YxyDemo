@@ -1,4 +1,4 @@
-package com.example.yxy.yxydemo;
+package com.example.yxy.yxydemo.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,6 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.yxy.yxydemo.BaseActivity;
+import com.example.yxy.yxydemo.Contents;
+import com.example.yxy.yxydemo.R;
 import com.example.yxy.yxydemo.bean.WeatherBean;
 
 import org.xmlpull.v1.XmlPullParser;

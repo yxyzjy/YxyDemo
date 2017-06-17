@@ -25,7 +25,7 @@ import rx.schedulers.Schedulers;
 
 public class TestOneActivity extends BaseActivity {
 
-    String[] names = {"aaa", "Bbb", "ccc"};
+    String[] names = {"ddd", "Bbb", "ccc"};
 
     ImageView imageView;
     TextView tv;
@@ -68,7 +68,7 @@ public class TestOneActivity extends BaseActivity {
         Student student = new Student("a", 22, curses);
 
         List<Curse> curses1 = new ArrayList<>();
-        Curse curse11 = new Curse("aaa", 99);
+        Curse curse11 = new Curse("ddd", 99);
         Curse curse21 = new Curse("bbb", 100);
         Curse curse331 = new Curse("ccc", 88);
         curses1.add(curse11);
