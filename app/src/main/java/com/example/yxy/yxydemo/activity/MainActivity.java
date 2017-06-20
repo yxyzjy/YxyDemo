@@ -71,7 +71,7 @@ public class MainActivity extends ListActivity {
     }
 
     private DemoDetails[] demos = {
-            new DemoDetails("未启用", "", TestOneActivity.class),
+            new DemoDetails("Android中文图混排时文图的居中对齐 ", "", TestOneActivity.class),
             new DemoDetails("点击事件，页面跳转", "", TestTwoActivity.class),
             new DemoDetails("Rxjava练习", "", TestThreeActivity.class),
             new DemoDetails("EditText与软键盘", "", TestFourActivity.class),

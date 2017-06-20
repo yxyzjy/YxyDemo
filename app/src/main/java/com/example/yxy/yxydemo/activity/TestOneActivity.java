@@ -1,234 +1,69 @@
 package com.example.yxy.yxydemo.activity;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.DynamicDrawableSpan;
+import android.text.style.ImageSpan;
 import android.widget.TextView;
 
 import com.example.yxy.yxydemo.BaseActivity;
+import com.example.yxy.yxydemo.MyClassTest.CustomImageSpan;
 import com.example.yxy.yxydemo.R;
-import com.example.yxy.yxydemo.bean.Curse;
-import com.example.yxy.yxydemo.bean.Student;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+
+/**
+ * 1. 使用drawableLeft等属性设置，这种方式对应的java方法是
+ * setCompoundDrawablesWithIntrinsicBounds(leftDrawble,topDrawable,rightDrawable,bottomDrawable);
+ * 2. 使用 SpannableString ,先将图片转成ImageSpan对象，
+ * 然后通过setSpan插入到SpannableString 中，最后再将SpannableString通过setText设置给TextView。
+ * （SpannableString 继承自CharSquence）
+ * 3. 此外，还有一种利用Html.ImageGetter格式化图片的方式。
+ */
 
 public class TestOneActivity extends BaseActivity {
 
-    String[] names = {"ddd", "Bbb", "ccc"};
-
-    ImageView imageView;
-    TextView tv;
-    int drawableRes = R.mipmap.ic_launcher;
+    @Bind(R.id.tv_one)
+    TextView tvOne;
+    @Bind(R.id.tv_two)
+    TextView tvTwo;
+    @Bind(R.id.tv_three)
+    TextView tvThree;
 
     @Override
     public void setContentLayout(Bundle savedInstanceState) {
         super.setContentLayout(savedInstanceState);
         setTopBar(R.layout.activity_test_one, "demo1");
-
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(Base_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-
-        Observable.from(names)
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        Log.e(TAG, s);
-                    }
-                });
     }
 
     @Override
     public void initView() {
         super.initView();
-        imageView = (ImageView) findViewById(R.id.iv);
-        tv = (TextView) findViewById(R.id.tv);
+        SpannableString spannableString = new SpannableString("点击 按钮 有惊喜,更改 对齐方式");
+        ImageSpan imageSpan = new ImageSpan(mContext,R.mipmap.hart);
+        ImageSpan imageSpan1 = new ImageSpan(mContext,R.mipmap.buy);
+        ImageSpan imageSpan2 = new ImageSpan(mContext,R.mipmap.buy, DynamicDrawableSpan.ALIGN_BASELINE);
+        //setSpan 包前不包后覆盖
+        //会覆盖调所选位置的文字 故添加空格显示
+        //第四个参数控制新插入文本的字体样式  图片随意选择
+        spannableString.setSpan(imageSpan,2,3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(imageSpan1,5,6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(imageSpan2,12,13, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tvOne.setText(spannableString);
+
+        SpannableString spannableString1 = new SpannableString("居中 对齐 YES");
+        CustomImageSpan imageSpan3 = new CustomImageSpan(mContext,R.mipmap.hart,2);
+        CustomImageSpan imageSpan4 = new CustomImageSpan(mContext,R.mipmap.buy,2);
+        spannableString1.setSpan(imageSpan4,5,6,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString1.setSpan(imageSpan3,2,3,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tvTwo.setText(spannableString1);
     }
 
     @Override
     public void initData() {
         super.initData();
-        List<Curse> curses = new ArrayList<>();
-        Curse curse1 = new Curse("English", 90);
-        Curse curse2 = new Curse("music", 80);
-        curses.add(curse1);
-        curses.add(curse2);
-        Student student = new Student("a", 22, curses);
-
-        List<Curse> curses1 = new ArrayList<>();
-        Curse curse11 = new Curse("ddd", 99);
-        Curse curse21 = new Curse("bbb", 100);
-        Curse curse331 = new Curse("ccc", 88);
-        curses1.add(curse11);
-        curses1.add(curse21);
-        curses1.add(curse331);
-        Student student1 = new Student("a", 22, curses1);
-        Student[] students = {student, student1};
-    }
-
-    public void test5(Student[] students) {
-        Subscriber<Curse> subscriber = new Subscriber<Curse>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Curse curse) {
-                Log.e(TAG, curse.getCurseName());
-            }
-        };
-
-        Observable.from(students)
-                .flatMap(new Func1<Student, Observable<Curse>>() {
-                    @Override
-                    public Observable<Curse> call(Student student) {
-                        return Observable.from(student.getCurse());
-                    }
-                }).subscribe(subscriber);
-
-    }
-
-    public void test4(Student[] students) {
-        Subscriber<Student> sub = new Subscriber<Student>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Student student) {
-                List<Curse> cur = student.getCurse();
-                for (int i = 0; i < cur.size(); i++) {
-                    Curse curse = cur.get(i);
-                    Log.e(TAG, "name==" + curse.getCurseName() + "==num==" + curse.getCurseNum());
-
-                }
-            }
-        };
-
-        Observable.from(students)
-                .map(new Func1<Student, Student>() {
-                    @Override
-                    public Student call(Student student) {
-                        return student;
-                    }
-                })
-                .subscribe(sub);
-
-
-    }
-
-
-    public void test3() {
-
-        Student[] students = {};
-
-        Subscriber<String> subscriber = new Subscriber<String>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(String s) {
-                Log.e(TAG, s);
-                tv.setText(s);
-            }
-        };
-        Observable.from(students)
-                .map(new Func1<Student, String>() {
-                    @Override
-                    public String call(Student student) {
-                        return student.getName();
-                    }
-                })
-                .subscribe(subscriber);
-
-    }
-
-    public void test2() {
-        Observable.just(1, 2, 3, 4)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer integer) {
-                        Log.e(TAG, "num==" + integer);
-                    }
-                });
-    }
-
-    public void test1() {
-
-        Observable.just(drawableRes)
-                .map(new Func1<Integer, Drawable>() {
-                    @Override
-                    public Drawable call(Integer integer) {
-                        return getResources().getDrawable(integer);
-                    }
-                }).subscribe(new Action1<Drawable>() {
-            @Override
-            public void call(Drawable drawable) {
-                imageView.setImageDrawable(drawable);
-            }
-        });
-
-
-      /*  Observable.create(new Observable.OnSubscribe<Drawable>() {
-            @Override
-            public void call(Subscriber<? super Drawable> subscriber) {
-//                Drawable drawable = getTheme().getDrawable(drawableRes);
-                Drawable drawable = getResources().getDrawable(drawableRes);
-                subscriber.onNext(drawable);
-                subscriber.onCompleted();
-            }
-        })
-                .observeOn(Schedulers.io())//指定 subscribe() 发生在 io线程
-                .observeOn(AndroidSchedulers.mainThread())//指定Subscrible的回调发生在主线程
-                .subscribe(new Observer<Drawable>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(TestOneActivity.this, "error", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(Drawable drawable) {
-                        imageView.setImageDrawable(drawable);
-                    }
-                });*/
     }
 
     @Override
